@@ -30,11 +30,7 @@ public class LinesSorter {
         //--------------------------------------------WRITE and SORT--------------------------------------------//
         try (FileWriter writer = new FileWriter(path, append)) {
 
-            Comparator<String> comp = new Comparator<String>() {
-                public int compare(String one, String two) {
-                    return one.length() - two.length();
-                }
-            };
+            Comparator<String> comp = Comparator.comparingInt(String::length);
 
             strings.sort(comp);
             for (String string : strings) {
