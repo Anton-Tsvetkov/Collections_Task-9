@@ -1,10 +1,12 @@
+package com.epam;
+
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class WorkWithFileContent {
+public class Main {
 
 // file from path must have empty last line
 
@@ -40,5 +42,9 @@ public class WorkWithFileContent {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static void main(String[] args) {
+        writeLinesToFileInReverseOrder("src\\com\\epam\\source\\FileWithStrings.txt", false);
     }
 }
