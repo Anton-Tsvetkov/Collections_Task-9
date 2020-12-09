@@ -1,6 +1,6 @@
 import java.util.Stack;
 
-public class DigitsOperation {
+public class Main {
 
     public static void digitsReverse(int number) {
 
@@ -16,5 +16,9 @@ public class DigitsOperation {
             reverse = reverse.concat(String.valueOf(digits.pop()));
         }
         System.out.println(reverse);
+    }
+
+    public static void main(String[] args) {
+        digitsReverse(12345);
     }
 }
