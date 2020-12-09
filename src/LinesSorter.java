@@ -7,10 +7,9 @@ import java.util.List;
 
 public class LinesSorter {
 
-    public static void sortByLinesLength(String path, boolean append) {   // append for FileWriter
-        List<String> strings = new ArrayList<>();
-
-        //--------------------------------------------------READ--------------------------------------------------//
+    //--------------------------------------------------READ--------------------------------------------------//
+    public static List<String> convertFromFileLinesToList(String path) {
+        List<String> stringList = new ArrayList<>();
         try (FileReader reader = new FileReader(path)) {
             int c = 0;
             String line;
@@ -22,18 +21,21 @@ public class LinesSorter {
                         line = line.concat(String.valueOf((char) c));
                     }
                 } while ((char) c != '\n' && c != -1);
-                strings.add(line);
+                stringList.add(line);
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-        //--------------------------------------------WRITE and SORT--------------------------------------------//
+        return stringList;
+    }
+
+    //--------------------------------------------WRITE and SORT--------------------------------------------//
+    public static void writeToFileSortedLinesByLength(String path, boolean append) {   // append for FileWriter
         try (FileWriter writer = new FileWriter(path, append)) {
-
+            List<String> stringList = convertFromFileLinesToList(path);
             Comparator<String> comp = Comparator.comparingInt(String::length);
-
-            strings.sort(comp);
-            for (String string : strings) {
+            stringList.sort(comp);
+            for (String string : stringList) {
                 writer.write(string);
             }
 
