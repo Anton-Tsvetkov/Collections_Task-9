@@ -4,13 +4,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ReadReverseWriteFiles {
+public class WorkWithFileContent {
 
 // file from path must have empty last line
 
-    static void reverseStringsFromFile(String path, boolean append) {   // append for FileWriter
-        List<String> strings = new ArrayList<>();
-        //--------------------------------------------------READ--------------------------------------------------//
+    //--------------------------------------------------READ--------------------------------------------------//
+    static List<String> transferFromFileToList(String path) {
+        List<String> stringList = new ArrayList<>();
         try (FileReader reader = new FileReader(path)) {
             int c = 0;
             String line;
@@ -18,19 +18,24 @@ public class ReadReverseWriteFiles {
                 line = "";
                 do {
                     c = reader.read();
-                    if(c != -1) {
+                    if (c != -1) {
                         line = line.concat(String.valueOf((char) c));
                     }
                 } while ((char) c != '\n' && c != -1);
-                strings.add(line);
+                stringList.add(line);
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-        //--------------------------------------------WRITE and REVERSE--------------------------------------------//
+        return stringList;
+    }
+
+    //--------------------------------------------WRITE and REVERSE--------------------------------------------//
+    static void writeLinesToFileInReverseOrder(String path, boolean append) {
+        List<String> stringList = transferFromFileToList(path);
         try (FileWriter writer = new FileWriter(path, append)) {
-            for (int i = strings.size() - 1; i >= 0; i--) {
-                writer.write(strings.get(i));
+            for (int i = stringList.size() - 1; i >= 0; i--) {
+                writer.write(stringList.get(i));
             }
         } catch (IOException e) {
             e.printStackTrace();
