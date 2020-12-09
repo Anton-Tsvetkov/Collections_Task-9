@@ -7,16 +7,11 @@ import java.util.Set;
 
 public class Main {
 
-    public static String cleanWord(String word){
-        word = word.toLowerCase()
-                .replaceAll("!", "")
-                .replaceAll("\\?", "")
-                .replaceAll(";", "")
-                .replaceAll(",", "")
-                .replaceAll("\\.", "")
-                .replaceAll("\n","")
-                .trim();
-        return word;
+    public static boolean isLetter(int symbol) {
+        return switch ((char)symbol) {
+            case '!', '?', ';', ',', '.', '\n' -> false;
+            default -> true;
+        };
     }
 
     public static Set<String> searchDifferentWords(String path) {
@@ -28,11 +23,11 @@ public class Main {
                 word = "";
                 do {
                     c = reader.read();
-                    if (c != -1) {
+                    if (c != -1 && isLetter(c)) {
                         word = word.concat(String.valueOf((char) c));
                     }
                 } while ((char) c != ' ' && c != -1);
-                word = cleanWord(word);
+                word = word.toLowerCase().trim();
                 differentWordsSet.add(word);
             }
         } catch (IOException e) {
@@ -43,6 +38,11 @@ public class Main {
 
     public static void main(String[] args) {
         Set<String> stringHashSet = searchDifferentWords("src\\com\\epam\\source\\FileWithStrings.txt");
+
+        for (String str : stringHashSet) {
+            System.out.println(str);
+        }
+
         System.out.println("Find " + stringHashSet.size() + " different words");
     }
 }
