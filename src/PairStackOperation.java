@@ -1,6 +1,6 @@
 import java.util.Stack;
 
-public class StackSwap {
+public class PairStackOperation {
 
     public static void stackSwap(Stack<Object> one, Stack<Object> two) {
         Object copyOne = one.clone();
