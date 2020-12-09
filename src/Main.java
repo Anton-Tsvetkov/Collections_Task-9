@@ -1,43 +1,36 @@
 import java.util.HashSet;
+import java.util.Set;
 
 public class Main {
 
-//     6. С использованием множества выполнить попарное суммирование произвольного конечного ряда чисел по следующим правилам:
-//        на первом этапе суммируются попарно рядом стоящие числа,
-//        на втором этапе суммируются результаты первого этапа и т. д. до тех пор, пока не останется одно число.
-
-
-    public HashSet<Integer> pairwiseSummation(HashSet<Integer> setNumbs) {
-        HashSet<Integer> integerHashSet = new HashSet<>();
-
+    public static Set<Integer> pairwiseSummation(Set<Integer> setNumbs) {
+        Set<Integer> halfSetNumbs = new HashSet<>();
         int i = 1;
         int sum = 0;
-        for (Integer numb : setNumbs) {
-            sum += numb;
-            if (i % 2 == 0){
-                integerHashSet.add(sum);
-                System.out.println(sum);
-                sum = 0;
-            }
+        if (setNumbs.size() == 1) {
+            return setNumbs;
+        } else {
+            for (Integer numb : setNumbs) {
+                sum += numb;
+                if (i % 2 == 0) {
+                    halfSetNumbs.add(sum);
+                    sum = 0;
+                }
+                if (i == setNumbs.size() && setNumbs.size() > 2) halfSetNumbs.add(numb);
                 i++;
+            }
+            halfSetNumbs = pairwiseSummation(halfSetNumbs);
+            return halfSetNumbs;
         }
-        return integerHashSet;
     }
 
     public static void main(String[] args) {
 
-        HashSet<Integer> integersHashSet = new HashSet<>();
+        Set<Integer> integersHashSet = new HashSet<>();
+        for (int i = 1; i <= 9; i++) {
+            integersHashSet.add(i);
+        }
 
-        integersHashSet.add(1);
-        integersHashSet.add(2);
-        integersHashSet.add(3);
-        integersHashSet.add(4);
-        integersHashSet.add(5);
-
-
-
-        System.out.println(integersHashSet);
+        System.out.println(pairwiseSummation(integersHashSet));
     }
-
-
 }
