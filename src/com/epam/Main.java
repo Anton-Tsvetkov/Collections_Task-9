@@ -1,45 +1,37 @@
 package com.epam;
 
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
 
 public class Main {
 
-    public static String cleanWord(String word){
+    public static String cleanWord(String word) {
         word = word
                 .replaceAll("!", "")
                 .replaceAll("\\?", "")
                 .replaceAll(";", "")
                 .replaceAll(",", "")
                 .replaceAll("\\.", "")
-                .replaceAll("\n","")
-                .trim();
+                .replaceAll("\n", "");
         return word;
     }
 
     public static Map<String, Integer> searchDifferentWords(String path) {
         Map<String, Integer> differentWordsMetric = new HashMap<>(200);
-        try (FileReader reader = new FileReader(path)) {
+        try (Scanner scanner = new Scanner(new File(path))) {
             int wordFrequency;
-            int c = 0;
-            String word;
-            while (c != -1) {
-                word = "";
-                do {
-                    c = reader.read();
-                    if (c != -1) {
-                        word = word.concat(String.valueOf((char) c));
-                    }
-                } while ((char) c != ' ' && c != -1);
+            while (scanner.hasNext()) {
+                String word = scanner.next();
                 word = cleanWord(word);
-                if(differentWordsMetric.get(word) != null) wordFrequency = differentWordsMetric.get(word) + 1;
+                if (differentWordsMetric.get(word) != null) wordFrequency = differentWordsMetric.get(word) + 1;
                 else wordFrequency = 1;
                 differentWordsMetric.put(word, wordFrequency);
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (FileNotFoundException ex) {
+            ex.printStackTrace();
         }
         return differentWordsMetric;
     }
